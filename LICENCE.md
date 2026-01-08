@@ -41,8 +41,8 @@ repository and author:
   - README file
 
 Example credit text:
-"This project is based on the original work by [YOUR NAME]:
- https://github.com/[YOUR_USERNAME]/[REPOSITORY_NAME]"
+"This project is based on the original work by Miguel Foliaco:
+ https://github.com/MiguelFoliaco/new-papers"
 
 4. PROHIBITED USES
 

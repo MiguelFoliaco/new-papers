@@ -42,10 +42,10 @@ repositorio original y a su autor:
   - Archivo README
 
 Ejemplo de texto de crédito:
-"Este proyecto se basa en el trabajo original de [TU NOMBRE]:
- https://github.com/[TU_USUARIO]/[NOMBRE_DEL_REPOSITORIO]"
+"Este proyecto se basa en el trabajo original de Miguel Foliaco:
+ https://github.com/MiguelFoliaco/new-papers"
 
-4. USOS PROHIBIDOS
+1. USOS PROHIBIDOS
 
 Quedan estrictamente prohibidos los siguientes usos sin autorización expresa
 y por escrito del titular de los derechos:
