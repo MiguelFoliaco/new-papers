@@ -1,3 +1,4 @@
+'use client';
 import { useLan, LanguageState } from '@/languages'
 import Image from 'next/image'
 

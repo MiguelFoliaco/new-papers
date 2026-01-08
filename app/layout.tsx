@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import '@fontsource/im-fell-double-pica-sc';
+import '@fontsource/kaisei-decol';
 // Supports weights 100-900
 import '@fontsource-variable/montserrat';
 import "./globals.css";
@@ -23,6 +25,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      
       <body
         className="bg-base-100"
         data-theme="caramellatte"

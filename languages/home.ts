@@ -23,5 +23,10 @@ export const home = {
         'en': 'Following',
         'es': 'Siguiendo',
         'jp': 'フォロー中' // フォローちゅう
+    },
+    'featured.title':{
+        'en': 'Featured',
+        'es': 'Destacados',
+        'jp': 'おすすめ'
     }
 }

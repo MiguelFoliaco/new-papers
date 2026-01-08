@@ -1,13 +1,12 @@
 'use client';
 import { useLan } from '@/languages';
-import { useUser } from '@/module/auth/context/useUser';
 import Link from 'next/link'
 import { useMemo } from 'react';
 import { ButtonLang } from './btn-lan';
+import { CONSTANT } from '@/constant';
 
 export const Header = () => {
 
-    const user = useUser(state => state.user)
     const { languages, lan } = useLan()
 
     const texts = useMemo(() => {
@@ -36,6 +35,7 @@ export const Header = () => {
                 </li>
             </ul>
 
+            <div className='ml-auto select-none w-40 h-10 bg-no-repeat bg-cover' style={{ backgroundImage: `url(${CONSTANT.LOGO})` }} />
             <div className='ml-auto'>
                 <ButtonLang />
             </div>
