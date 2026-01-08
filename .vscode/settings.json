@@ -3,6 +3,7 @@
         "node_modules": true
     },
     "conventionalCommits.scopes": [
-        "LICENCE"
+        "LICENCE",
+        "Editor"
     ]
 }
