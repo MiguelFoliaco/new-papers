@@ -25,7 +25,7 @@ export default async function RootLayout({
     <html lang="en">
       <body
         className="bg-base-100"
-        data-theme="lofi"
+        data-theme="caramellatte"
       >
         <LayoutClient
           user={user.data.user}

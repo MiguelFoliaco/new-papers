@@ -8,8 +8,6 @@ const URL = process.env.SUPABASE_PROJECT_URL!;
 const KEY = process.env.SUPABASE_API_KEY!;
 
 
-
-
 export async function createClient() {
     return createServerClient<Database>(URL, KEY, {
         cookies: {
