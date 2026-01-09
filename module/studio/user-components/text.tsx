@@ -24,6 +24,7 @@ import {
     BiListOl,
     BiCodeBlock,
     BiSolidQuoteAltLeft,
+    BiTrash,
 } from "react-icons/bi";
 import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 
@@ -32,15 +33,17 @@ type Props = {
 };
 
 export const Text = ({ raw }: Props) => {
-    const { enable } = useEditor(state => ({
+    const { enable, actions } = useEditor(state => ({
         enable: state.options.enabled,
     }));
 
     const { t } = useTranslations('studio');
     const {
-        connectors: { connect, drag },
-        actions: { setProp },
+        id,
+        connectors: { connect, drag, },
+        actions: { setProp, },
     } = useNode();
+
 
     /* Init editor */
     const [editorState, setEditorState] = useState(() =>
@@ -131,6 +134,15 @@ export const Text = ({ raw }: Props) => {
                     <ToolbarButton onClick={() => toggleBlock('unordered-list-item')} icon={<BiListUl />} />
                     <ToolbarButton onClick={() => toggleBlock('ordered-list-item')} icon={<BiListOl />} />
                     <ToolbarButton onClick={() => toggleBlock('code-block')} icon={<BiCodeBlock />} />
+
+                    <Divider />
+                    <div className="ml-auto" />
+                    {/* Delete Node */}
+                    <ToolbarButton onClick={() => {
+                        const check = confirm('Are you sure you want to delete this node?');
+                        if (!check) return;
+                        actions.delete(id);
+                    }} icon={<BiTrash />} />
                 </div>
             )}
         </div>

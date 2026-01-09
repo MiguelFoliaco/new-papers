@@ -14,10 +14,10 @@ export const Header = () => {
     }, [lan, languages])
 
     return (
-        <div className="flex items-center p-3 border-b border-b-neutral/40">
+        <div className="flex flex-col-reverse lg:flex-row items-center lg:p-3 p-2  border-b border-b-neutral/40">
             {/* <h3 className="text-xl font-medium text-base-100">Template with login - NextJS + Supabase</h3> */}
 
-            <ul className='flex justify-between w-6/12'>
+            <ul className='flex justify-between w-full lg:w-6/12'>
                 <li>
                     <Link className="link-primary text-sm" href={'/'} >{texts('navbar.item_1')}</Link>
                 </li>
@@ -35,8 +35,8 @@ export const Header = () => {
                 </li>
             </ul>
 
-            <div className='ml-auto select-none w-40 h-10 bg-no-repeat bg-cover' style={{ backgroundImage: `url(${CONSTANT.LOGO})` }} />
-            <div className='ml-auto'>
+            <div className='lg:ml-auto mr-auto select-none w-40 h-10 bg-no-repeat bg-cover' style={{ backgroundImage: `url(${CONSTANT.LOGO})` }} />
+            <div className='lg:ml-auto hidden lg:block'>
                 <ButtonLang />
             </div>
 

@@ -2,7 +2,7 @@
 
 import { useEditor, useNode } from "@craftjs/core";
 import { format } from "@formkit/tempo";
-import { BiImage, BiUser } from "react-icons/bi";
+import { BiImage, BiTrash, BiUser } from "react-icons/bi";
 
 type ImageProps = {
     src?: string;
@@ -27,8 +27,9 @@ export const Image = ({
     date,
     location
 }: ImageProps) => {
-    const { enable } = useEditor(state => ({ enable: state.options.enabled }))
+    const { enable, actions } = useEditor(state => ({ enable: state.options.enabled }))
     const {
+        id,
         connectors: { connect, drag },
         actions: { setProp },
         selected,
@@ -170,6 +171,16 @@ export const Image = ({
                     <div className="flex items-center gap-2  pl-2">
                         <label className="label text-xs">Date</label>
                         <input type="datetime-local" value={typeof date === 'string' ? date : date?.toISOString()} onChange={(e) => setProp((props: ImageProps) => props.date = e.target.value)} className="input input-xs" />
+                    </div>
+                    <div className="flex items-center gap-2  ml-auto">
+                        <button type="button" className="cursor-pointer" onClick={() => {
+                            const check = confirm("Are you sure you want to delete this image?")
+                            if (check) {
+                                actions.delete(id)
+                            }
+                        }}>
+                            <BiTrash className="text-base-content/60" />
+                        </button>
                     </div>
                 </div>
             )}

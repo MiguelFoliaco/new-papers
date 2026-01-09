@@ -3,7 +3,7 @@
 import { useTranslations } from "@/languages/context";
 import { useEditor, useNode } from "@craftjs/core";
 import React from "react";
-import { BiGrid } from "react-icons/bi";
+import { BiGrid, BiTrash } from "react-icons/bi";
 import { MdPadding } from "react-icons/md";
 
 type ContainerProps = {
@@ -17,7 +17,8 @@ type ContainerProps = {
 
 export const Container = ({ children }: ContainerProps) => {
     const { t } = useTranslations('studio')
-    const { enable } = useEditor(state => ({ enable: state.options.enabled }))
+    const { id } = useNode()
+    const { enable, actions } = useEditor(state => ({ enable: state.options.enabled }))
 
     const {
         connectors: { connect, drag },
@@ -137,6 +138,23 @@ export const Container = ({ children }: ContainerProps) => {
                     >
                         <BiGrid />
                         3 {t('container.cols')}
+                    </button>
+
+                    {/* Delete */}
+                    <button
+                        className="ml-auto cursor-pointer mr-2"
+                        type="button"
+                        onClick={() => {
+
+                            const check = confirm('Are you sure you want to delete this container?')
+
+                            if (check) {
+                                actions.delete(id)
+                            }
+                        }}
+                    >
+                        <BiTrash className="text-base-content/60" />
+
                     </button>
                 </div>
             }

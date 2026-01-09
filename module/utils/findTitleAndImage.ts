@@ -5,12 +5,25 @@ export const findTitle = (data: Record<string, NodeData>) => {
     const keys = Object.keys(data);
 
     // @ts-ignore
-    const keyTitle = keys.reverse().find(e => data[e].type.resolvedName === 'Text') as string
-    
+    const keyTitle = keys.find(e => data[e].type.resolvedName === 'Text') as string
+
     const titleNode = data[keyTitle];
-    
-    const titleH1 = titleNode.props?.raw?.blocks?.find((e: any) => e?.type?.includes('header'));
-    return titleNode?.props?.text || titleH1?.text
+
+    const titleH1 = titleNode.props?.raw?.blocks?.find((e: { type: string }) => e?.type?.includes('header'));
+    return titleH1?.text
+}
+
+export const findText = (data: Record<string, NodeData>) => {
+    const keys = Object.keys(data);
+
+    // @ts-ignore
+    const keyTitle = keys.filter(e => data[e].type.resolvedName === 'Text')
+    const indexRandom = random(0, keyTitle.length - 1)
+    const titleNode = data[keyTitle[indexRandom]];
+    console.log(data, 'Estos son todos los bloques')
+    const titleH1 = titleNode.props?.raw?.blocks?.find((e: { type: string }) => e?.type?.includes('unstyled'));
+    console.log(titleH1, 'Estos son los unstyled')
+    return ((titleH1?.text || '') as string)
 }
 
 
@@ -22,3 +35,6 @@ export const findImage = (data: Record<string, NodeData>) => {
     const imageNode = data[keyImage];
     return imageNode.props.src
 }
+
+
+const random = (min: number, max: number) => Math.floor(Math.random() * (max - min + 1) + min);

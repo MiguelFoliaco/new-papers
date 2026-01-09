@@ -6,6 +6,7 @@ import { User } from '@supabase/supabase-js';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react'
+import { SearchNews } from './search';
 
 
 
@@ -29,9 +30,11 @@ export const HeaderUserActions = () => {
 
     return (
         <div className='flex w-full border-b border-b-neutral/20 p-2 px-3 items-center'>
-            <span ref={refTime} className='text-sm text-neutral' />
-
-            <div className='ml-auto'>
+            <span ref={refTime} className='text-sm text-neutral w-40' />
+            <div className='hidden lg:block w-[60%] ml-auto'>
+                <SearchNews />
+            </div>
+            <div className='lg:ml-10 ml-auto'>
                 {
                     user ?
                         <Link href={'/profile'}>

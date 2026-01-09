@@ -3,6 +3,7 @@ import { useTranslations } from '@/languages/context';
 import { useEffect, useState } from 'react';
 import { BestNewType, getBestNews } from '../../actions/get-best';
 import { useToast } from '@/module/common/hook/useToast';
+import { CardNewFeatured } from './card';
 
 export const Featured = () => {
 
@@ -14,27 +15,27 @@ export const Featured = () => {
     useEffect(() => {
         getBestNews()
             .then(res => {
+                if (res.status !== 'success') {
+                    return openToast(res.msg, 'error')
+                }
                 if (res.data) {
                     setNewBest(res.data)
-                }
-                if (res.status !== 'success') {
-                    openToast(res.msg, 'error')
                 }
             })
             .finally(() => {
                 setLoaded(true)
             })
-    }, [])
+    }, [openToast])
 
     return (
-        <div className='mt-5'>
-            <h2 className="text-2xl font-bold">{t('featured.title')}</h2>
+        <div >
+            <h2 className="text-2xl font-bold lg:px-0 px-3">{t('featured.title')}</h2>
 
 
             <div className='mt-2'>
                 {
-                    loaded ?
-                        null
+                    loaded && newBest ?
+                        <CardNewFeatured newBest={newBest!} />
                         :
                         <div className='flex flex-col items-center justify-center min-h-[300px]'>
                             <span className='loading loading-md loading-infinity' />

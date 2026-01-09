@@ -3,7 +3,7 @@
 import { createClient } from "@/supabase/server";
 
 const select = `
-new_best:news_id(
+new:news_id(
     author_id,
     title,
     slug,
@@ -16,9 +16,10 @@ selected_by
 `
 export const getBestNews = async () => {
     const client = await createClient()
-    const bestNew = await client.from('best_news').select(select).maybeSingle();
+    const bestNew = await client.from('best_news').select(select).limit(1).maybeSingle();
 
     if (bestNew.data == null) {
+        console.log('error_get_data', bestNew);
         return {
             msg: 'error_get_data',
             data: null,

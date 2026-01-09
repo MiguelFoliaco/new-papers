@@ -5,10 +5,11 @@ import { CoreHome } from "@/module/home/components/core";
 
 export default function Home() {
   return (
-    <div className="w-[80%] mx-auto">
-      <HeaderUserActions />
-      <Header />
-      <SearchNews />
+    <div className="lg:w-[70%] w-full lg:mx-auto pb-10">
+      <div className="lg:sticky lg:top-0 lg:z-20 lg:backdrop-blur-2xl">
+        <HeaderUserActions />
+        <Header />
+      </div>
       <CoreHome />
     </div>
   );

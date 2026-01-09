@@ -4,7 +4,7 @@ import { useEditor } from "@craftjs/core"
 import { useEffect, useState } from "react"
 import type { saveNewsProps } from "../actions/save-news"
 import { saveNews } from "../actions/save-news"
-import { findImage, findTitle } from "@/module/utils/findTitleAndImage"
+import { findImage, findText, findTitle } from "@/module/utils/findTitleAndImage"
 import { IoClose, IoSaveOutline, IoImageOutline, IoLinkOutline, IoTextOutline, IoEyeOutline } from "react-icons/io5"
 import { useToast } from "@/module/common/hook/useToast"
 
@@ -42,7 +42,9 @@ export const SaveButton = () => {
   const save = async () => {
     if (loading) return;
     const json = query.serialize()
+    console.log(JSON.parse(json))
     const title = findTitle(JSON.parse(json))
+    const text = findText(JSON.parse(json))
     const image = findImage(JSON.parse(json))
 
     const input: saveNewsProps = {
@@ -50,7 +52,7 @@ export const SaveButton = () => {
       title,
       author_id: "",
       cover_image_url: image,
-      cover_text: title,
+      cover_text: text,
       slug: title?.toLowerCase()?.replace(/[^a-z0-9]+/g, "-"),
       allow_updates: false,
     }
@@ -122,6 +124,22 @@ export const SaveButton = () => {
                     onChange={(e) => setModalForm({ ...modalForm, title: e.target.value })}
                   />
                 </div>
+                {/* Summary field */}
+                <div className="form-control">
+                  <label className="label py-1">
+                    <span className="label-text flex items-center gap-2 text-base-content/80">
+                      <IoTextOutline className="w-4 h-4" />
+                      Resumen
+                    </span>
+                  </label>
+                  <textarea
+                    rows={3}
+                    className="textarea resize-none w-full bg-base-200/50 border-base-content/10 focus:border-primary focus:bg-base-100 transition-all"
+                    placeholder="Escribe el título del artículo"
+                    value={modalForm?.cover_text}
+                    onChange={(e) => setModalForm({ ...modalForm, cover_text: e.target.value })}
+                  ></textarea>
+                </div>
 
                 {/* Image URL field */}
                 <div className="form-control">
@@ -188,6 +206,7 @@ export const SaveButton = () => {
                   {/* Image */}
                   <figure className="relative aspect-video bg-base-300">
                     {modalForm?.cover_image_url ? (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img
                         src={modalForm.cover_image_url || "/placeholder.svg"}
                         alt={modalForm.title || "Preview"}
@@ -204,9 +223,12 @@ export const SaveButton = () => {
                   {/* Content */}
                   <div className="card-body p-4">
                     <h4 className="card-title text-base line-clamp-2">{modalForm?.title || "Sin título"}</h4>
-                    <p className="text-xs text-base-content/50 flex items-center gap-1 mt-1">
+                    <p className="text-xs text-base-content flex items-center gap-1 mt-1">
+                      {(modalForm?.cover_text || "Sin resumen")?.substring(0, 100) + (modalForm?.cover_text?.length > 100 ? "..." : "")}
+                    </p>
+                    <p title={modalForm?.slug} className="text-xs text-base-content/50 flex items-center gap-1 mt-1">
                       <IoLinkOutline className="w-3 h-3" />
-                      /blog/{modalForm?.slug || "sin-slug"}
+                      /new/{(modalForm?.slug || "sin-slug")?.substring(0, 40) + (modalForm?.slug?.length > 20 ? "..." : "")}
                     </p>
                   </div>
                 </div>
@@ -224,7 +246,7 @@ export const SaveButton = () => {
               </button>
               <button disabled={loading} onClick={handleSave} className="btn btn-primary gap-2">
                 {
-                  loading ?
+                  !loading ?
                     <IoSaveOutline className="w-4 h-4" />
                     :
                     <span className="loading loading-xs" />
