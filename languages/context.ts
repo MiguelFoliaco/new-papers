@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { studio } from "./studio";
 
 
-const languages = { home, common, studio };
+export const languages = { home, common, studio };
 
 
 export type LanguageState = {

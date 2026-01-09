@@ -47,7 +47,7 @@ export const CardNewFeatured = ({ newBest }: Props) => {
     return (
         <article className="group relative w-[90%] lg:w-full lg:max-w-[60vw] mx-auto overflow-hidden rounded-2xl bg-linear-to-br from-base-200/50 to-base-200/50 border border-base-content/10 transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/5">
             {/* Background gradient overlay */}
-            <div className="absolute inset-0 bg-linear-to-t from-base-300 via-transparent via-30% to-neutral/20 to-40% opacity-60 z-10 pointer-events-none" />
+            <div className="absolute inset-0 bg-linear-to-t from-base-300 via-transparent via-30% to-neutral/50 to-40% opacity-60 z-10 pointer-events-none" />
 
             {/* Cover image */}
             <div className="relative aspect-21/9 sm:aspect-2/1 md:aspect-21/9 w-full overflow-hidden">

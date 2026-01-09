@@ -65,14 +65,16 @@ export const Text = ({ raw }: Props) => {
     /* Persist editor state to Craft props */
     const onChange = (state: EditorState) => {
         setEditorState(state);
+    };
 
-        const content = state.getCurrentContent();
+    const onBlur = () => {
+        const content = editorState.getCurrentContent();
         const rawContent = convertToRaw(content);
 
         setProp((props: Props) => {
             props.raw = rawContent;
         });
-    };
+    }
 
     const handleKeyCommand = (
         command: DraftEditorCommand,
@@ -112,6 +114,7 @@ export const Text = ({ raw }: Props) => {
                 editorState={editorState}
                 onChange={onChange}
                 handleKeyCommand={handleKeyCommand}
+                onBlur={onBlur}
             />
 
             {enable && (

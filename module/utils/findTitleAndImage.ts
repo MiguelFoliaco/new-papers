@@ -18,7 +18,11 @@ export const findText = (data: Record<string, NodeData>) => {
 
     // @ts-ignore
     const keyTitle = keys.filter(e => data[e].type.resolvedName === 'Text')
-    const indexRandom = random(0, keyTitle.length - 1)
+    let indexRandom = random(0, keyTitle.length - 1)
+    
+    while (keyTitle[indexRandom].trim() !== '') {
+        indexRandom = random(0, keyTitle.length - 1)
+    }
     const titleNode = data[keyTitle[indexRandom]];
     console.log(data, 'Estos son todos los bloques')
     const titleH1 = titleNode.props?.raw?.blocks?.find((e: { type: string }) => e?.type?.includes('unstyled'));

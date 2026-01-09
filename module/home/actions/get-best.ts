@@ -16,7 +16,7 @@ selected_by
 `
 export const getBestNews = async () => {
     const client = await createClient()
-    const bestNew = await client.from('best_news').select(select).limit(1).maybeSingle();
+    const bestNew = await client.from('best_news').select(select).order('created_at', { ascending: false }).limit(1).maybeSingle();
 
     if (bestNew.data == null) {
         console.log('error_get_data', bestNew);

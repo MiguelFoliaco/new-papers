@@ -1,12 +1,12 @@
 'use client';
 import { useTranslations } from '@/languages/context';
 import { useUser } from '@/module/auth/context/useUser';
-import { format } from '@formkit/tempo'
 import { User } from '@supabase/supabase-js';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react'
 import { SearchNews } from './search';
+import { dateByLanWithTime } from '@/module/utils/date-by-lan';
 
 
 
@@ -21,7 +21,7 @@ export const HeaderUserActions = () => {
         if (refTime.current == null) return
         const interval = setInterval(() => {
             if (refTime.current == null) return
-            const time = getTimeWithSeccond(lan)
+            const time = dateByLanWithTime(new Date(), lan)
             refTime.current.innerText = time
         }, 1000)
         return () => clearInterval(interval)
@@ -37,7 +37,7 @@ export const HeaderUserActions = () => {
             <div className='lg:ml-10 ml-auto'>
                 {
                     user ?
-                        <Link href={'/profile'}>
+                        <Link href={'/my-zone'}>
                             <Avatar user={user} />
                         </Link>
                         :
@@ -69,14 +69,4 @@ export const Avatar = ({ user }: { user: User }) => {
             </div>
         </span>
     )
-}
-
-
-const getTimeWithSeccond = (en: 'es' | 'jp' | 'en') => {
-    const localeByEn = {
-        'en': 'en-US',
-        'jp': 'ja-JP',
-        'es': 'es-CO'
-    }
-    return format(new Date(), 'D MMMM YYYY - HH:mm:ss', localeByEn[en])
 }

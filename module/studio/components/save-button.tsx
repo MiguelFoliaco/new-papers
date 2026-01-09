@@ -42,7 +42,6 @@ export const SaveButton = () => {
   const save = async () => {
     if (loading) return;
     const json = query.serialize()
-    console.log(JSON.parse(json))
     const title = findTitle(JSON.parse(json))
     const text = findText(JSON.parse(json))
     const image = findImage(JSON.parse(json))

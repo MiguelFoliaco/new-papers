@@ -9,6 +9,7 @@ type ImageProps = {
     alt?: string;
     width?: number;
     height?: number;
+    auto: boolean;
     objectFit?: "cover" | "contain" | "fill";
     borderRadius?: number;
     author?: string;
@@ -25,7 +26,8 @@ export const Image = ({
     borderRadius,
     author,
     date,
-    location
+    location,
+    auto
 }: ImageProps) => {
     const { enable, actions } = useEditor(state => ({ enable: state.options.enabled }))
     const {
@@ -85,11 +87,15 @@ export const Image = ({
 
                     <div className="flex items-center gap-2 border-l border-neutral/20 pl-2">
                         <label className="label text-xs">Width</label>
-                        <input type="number" value={width} onChange={(e) => setProp((props: ImageProps) => props.width = parseInt(e.target.value))} className="input input-xs" />
+                        <input disabled={auto} type="number" value={width} onChange={(e) => setProp((props: ImageProps) => props.width = parseInt(e.target.value))} className="input input-xs" />
                     </div>
                     <div className="flex items-center gap-2  pl-2">
                         <label className="label text-xs">Height</label>
-                        <input type="number" value={height} onChange={(e) => setProp((props: ImageProps) => props.height = parseInt(e.target.value))} className="input input-xs" />
+                        <input disabled={auto} type="number" value={height} onChange={(e) => setProp((props: ImageProps) => props.height = parseInt(e.target.value))} className="input input-xs" />
+                    </div>
+                    <div className="flex items-center gap-2  pl-2">
+                        <label className="label text-xs">Auto size</label>
+                        <input type="checkbox" checked={auto} onChange={(e) => setProp((props: ImageProps) => props.auto = e.target.checked)} className="checkbox checkbox-xs" />
                     </div>
                 </div>
             )}
@@ -105,8 +111,8 @@ export const Image = ({
                         style={{
                             objectFit,
                             borderRadius,
-                            width,
-                            height,
+                            width: auto ? 'auto' : width,
+                            height: auto ? 'auto' : height,
                         }}
                         draggable={false}
                     />
@@ -192,11 +198,15 @@ Image.craft = {
     displayName: "Image",
     props: {
         src: "",
-        alt: "image",
+        alt: "",
         width: 200,
         height: 150,
         objectFit: "cover",
         borderRadius: 0,
+        author: "",
+        location: "",
+        date: "",
+        auto: true,
     },
     rules: {
         canDrag: () => true,

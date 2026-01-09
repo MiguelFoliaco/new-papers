@@ -13,9 +13,10 @@ import ImageNext from 'next/image'
 import { CONSTANT } from '@/constant'
 import { SaveButton } from './components/save-button'
 
-export const Studio = () => {
+export const Studio = ({ leftMenu }: { leftMenu: React.ReactNode }) => {
 
     const [isEdit, setisEdit] = useState(true)
+
 
     return (
         <Editor
@@ -24,7 +25,7 @@ export const Studio = () => {
         >
 
             <div className='grid grid-rows-15 h-screen'>
-                <div className='row-span-1 border-b border-b-neutral/20 flex justify-between items-center px-3'>
+                <div className='row-span-1 bg-base-200 border-b border-b-neutral/20 flex justify-between items-center px-3'>
                     <div className='flex items-center gap-2'>
                         <SaveButton />
                         <button className='btn btn-sm shadow-none btn-neutral' onClick={() => setisEdit(!isEdit)}>
@@ -43,7 +44,9 @@ export const Studio = () => {
                     </div>
                 </div>
                 <div className='w-full flex justify-between h-full row-span-14'>
-                    <div className='w-[15%]'></div>
+                    <div className='w-fit'>
+                        {leftMenu}
+                    </div>
                     <div className='w-[75%] border-l border-r border-neutral/20'>
                         <PageNew />
                     </div>
