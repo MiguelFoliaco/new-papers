@@ -14,7 +14,7 @@ export const Header = () => {
     }, [lan, languages])
 
     return (
-        <div className="flex flex-col-reverse lg:flex-row items-center lg:p-3 p-2  border-b border-b-neutral/40">
+        <div className="flex  flex-col-reverse lg:flex-row items-center lg:p-3 p-2  border-b border-b-neutral/40">
             {/* <h3 className="text-xl font-medium text-base-100">Template with login - NextJS + Supabase</h3> */}
 
             <ul className='flex justify-between w-full lg:w-6/12'>

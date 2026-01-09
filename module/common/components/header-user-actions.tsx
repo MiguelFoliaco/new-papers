@@ -29,7 +29,7 @@ export const HeaderUserActions = () => {
 
 
     return (
-        <div className='flex w-full border-b border-b-neutral/20 p-2 px-3 items-center'>
+        <div className='@container flex w-full border-b border-b-neutral/20 p-2 px-3  items-center'>
             <span ref={refTime} className='text-sm text-neutral w-40' />
             <div className='hidden lg:block w-[60%] ml-auto'>
                 <SearchNews />
