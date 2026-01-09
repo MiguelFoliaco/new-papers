@@ -1,7 +1,8 @@
 'use client';
 
 import { useEditor, useNode } from "@craftjs/core";
-import { BiImage } from "react-icons/bi";
+import { format } from "@formkit/tempo";
+import { BiImage, BiUser } from "react-icons/bi";
 
 type ImageProps = {
     src?: string;
@@ -10,6 +11,9 @@ type ImageProps = {
     height?: number;
     objectFit?: "cover" | "contain" | "fill";
     borderRadius?: number;
+    author?: string;
+    location?: string;
+    date?: string | Date;
 };
 
 export const Image = ({
@@ -19,6 +23,9 @@ export const Image = ({
     height,
     objectFit,
     borderRadius,
+    author,
+    date,
+    location
 }: ImageProps) => {
     const { enable } = useEditor(state => ({ enable: state.options.enabled }))
     const {
@@ -106,6 +113,66 @@ export const Image = ({
                     <BiImage size={32} className="text-base-content/40" />
                 )}
             </div>
+            <div className="px-2 flex flex-col mt-3">
+                {
+                    alt &&
+                    <p className="text-xs capitalize font-normal">{alt}</p>
+                }
+                {
+                    author &&
+                    <p className="text-sm capitalize font-semibold">{author}</p>
+                }
+                {
+                    location &&
+                    <p className="text-sm capitalize font-normal">{location}</p>
+                }
+                {
+                    date &&
+                    <p className="text-sm capitalize font-normal">{format(new Date(date), 'short')}</p>
+                }
+            </div>
+            {/* Top controls */}
+            {selected && (
+                <div className="border-t border-neutral/20 bg-base-100 p-2 flex items-center gap-2">
+                    <div className="flex items-center gap-2">
+                        <label className="label text-xs" >Alternative text: </label>
+                        <input
+                            type="text"
+                            placeholder="placeholder"
+                            className="input input-xs flex-1"
+                            value={alt}
+                            onChange={(e) =>
+                                setProp((props: ImageProps) => {
+                                    props.alt = e.target.value;
+                                })
+                            }
+                        />
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <BiUser className="text-base-content/60" />
+                        <input
+                            type="text"
+                            placeholder="Author"
+                            className="input input-xs flex-1"
+                            value={author}
+                            onChange={(e) =>
+                                setProp((props: ImageProps) => {
+                                    props.author = e.target.value;
+                                })
+                            }
+                        />
+                    </div>
+
+                    <div className="flex items-center gap-2 border-l border-neutral/20 pl-2">
+                        <label className="label text-xs">Location</label>
+                        <input type="text" value={location} onChange={(e) => setProp((props: ImageProps) => props.location = e.target.value)} className="input input-xs" />
+                    </div>
+                    <div className="flex items-center gap-2  pl-2">
+                        <label className="label text-xs">Date</label>
+                        <input type="datetime-local" value={typeof date === 'string' ? date : date?.toISOString()} onChange={(e) => setProp((props: ImageProps) => props.date = e.target.value)} className="input input-xs" />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

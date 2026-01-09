@@ -6,8 +6,11 @@ export const findTitle = (data: Record<string, NodeData>) => {
 
     // @ts-ignore
     const keyTitle = keys.reverse().find(e => data[e].type.resolvedName === 'Text') as string
+    
     const titleNode = data[keyTitle];
-    return titleNode.props.text
+    
+    const titleH1 = titleNode.props?.raw?.blocks?.find((e: any) => e?.type?.includes('header'));
+    return titleNode?.props?.text || titleH1?.text
 }
 
 

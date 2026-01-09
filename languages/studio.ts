@@ -22,12 +22,12 @@ export const studio = {
     'components.text': {
         'es': 'Texto',
         'en': 'Text',
-        'jp': 'テキスト'
+        'jp': '文章//ぶんしょ'//　ぶんしょ
     },
     'components.image': {
         'es': 'Imagen',
         'en': 'Image',
-        'jp': 'イメージ'
+        'jp': '画像//がぞう'// がぞう
     },
     'components.link': {
         'es': 'Enlace',
@@ -37,7 +37,7 @@ export const studio = {
     'components.container': {
         'es': 'Contenedor',
         'en': 'Container',
-        'jp': 'コンテナー'
+        'jp': '容器//ようき' //ようき
     },
     "container.padding": {
         'es': 'Relleno',

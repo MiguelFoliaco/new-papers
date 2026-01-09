@@ -24,9 +24,19 @@ export const home = {
         'es': 'Siguiendo',
         'jp': 'フォロー中' // フォローちゅう
     },
-    'featured.title':{
+    'featured.title': {
         'en': 'Featured',
         'es': 'Destacados',
         'jp': 'おすすめ'
+    },
+    'header-user.login': {
+        'en': 'Login',
+        'es': 'Ingresa',
+        'jp': '入る'　// はいる
+    },
+    'header-user.register': {
+        'en': 'Sign Up',
+        'es': 'Unete',
+        'jp': '登録する'//とうろくする
     }
 }

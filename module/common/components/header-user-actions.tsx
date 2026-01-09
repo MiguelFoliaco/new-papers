@@ -1,4 +1,5 @@
 'use client';
+import { useTranslations } from '@/languages/context';
 import { useUser } from '@/module/auth/context/useUser';
 import { format } from '@formkit/tempo'
 import { User } from '@supabase/supabase-js';
@@ -13,21 +14,22 @@ export const HeaderUserActions = () => {
 
     const { user } = useUser()
     const refTime = useRef<HTMLSpanElement>(null)
+    const { t, lan } = useTranslations('home')
 
     useEffect(() => {
         if (refTime.current == null) return
         const interval = setInterval(() => {
             if (refTime.current == null) return
-            const time = getTimeWithSeccond()
+            const time = getTimeWithSeccond(lan)
             refTime.current.innerText = time
         }, 1000)
         return () => clearInterval(interval)
-    }, [refTime])
+    }, [refTime, lan])
 
 
     return (
         <div className='flex w-full border-b border-b-neutral/20 p-2 px-3 items-center'>
-            <span ref={refTime} className='text-sm text-white' />
+            <span ref={refTime} className='text-sm text-neutral' />
 
             <div className='ml-auto'>
                 {
@@ -37,8 +39,8 @@ export const HeaderUserActions = () => {
                         </Link>
                         :
                         <div className='flex gap-2 items-center'>
-                            <Link className="link-primary text-sm" href={'/login'} >Login</Link>
-                            <Link className="link-primary text-sm" href={'/register'} >Register</Link>
+                            <Link className="link-primary text-sm" href={'/auth/login'} >{t('header-user.login')}</Link>
+                            <Link className="link-neutral text-sm" href={'/auth/register'} >{t('header-user.register')}</Link>
                         </div>
                 }
             </div>
@@ -67,6 +69,11 @@ export const Avatar = ({ user }: { user: User }) => {
 }
 
 
-const getTimeWithSeccond = () => {
-    return format(new Date(), 'D MMMM YYYY - HH:mm:ss')
+const getTimeWithSeccond = (en: 'es' | 'jp' | 'en') => {
+    const localeByEn = {
+        'en': 'en-US',
+        'jp': 'ja-JP',
+        'es': 'es-CO'
+    }
+    return format(new Date(), 'D MMMM YYYY - HH:mm:ss', localeByEn[en])
 }

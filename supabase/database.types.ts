@@ -14,6 +14,38 @@ export type Database = {
   }
   public: {
     Tables: {
+      best_news: {
+        Row: {
+          created_at: string
+          dead_date: string
+          id: string
+          news_id: string
+          selected_by: Database["public"]["Enums"]["best_news_selection_type"]
+        }
+        Insert: {
+          created_at?: string
+          dead_date?: string
+          id?: string
+          news_id: string
+          selected_by: Database["public"]["Enums"]["best_news_selection_type"]
+        }
+        Update: {
+          created_at?: string
+          dead_date?: string
+          id?: string
+          news_id?: string
+          selected_by?: Database["public"]["Enums"]["best_news_selection_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "best_news_news_id_fkey"
+            columns: ["news_id"]
+            isOneToOne: false
+            referencedRelation: "news"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       news: {
         Row: {
           allow_updates: boolean | null
@@ -164,7 +196,11 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      best_news_selection_type:
+        | "editorial"
+        | "community"
+        | "sponsored"
+        | "ai_curated"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -291,6 +327,13 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      best_news_selection_type: [
+        "editorial",
+        "community",
+        "sponsored",
+        "ai_curated",
+      ],
+    },
   },
 } as const

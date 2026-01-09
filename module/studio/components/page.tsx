@@ -15,7 +15,7 @@ export function PageNew() {
                 {t('title.create_or_update_content')}
             </h1>
 
-            <div className='w-full h-[850] p-4 overflow-y-scroll border-t border-b border-base-content/20'>
+            <div className='w-full h-[850px] max-h-[80vh] p-4 overflow-y-scroll border-t border-b border-base-content/20'>
                 <Frame>
                     <Element is="div" canvas>
                         <Text />

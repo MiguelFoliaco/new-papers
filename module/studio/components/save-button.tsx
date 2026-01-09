@@ -3,8 +3,10 @@
 import { useEditor } from "@craftjs/core"
 import { useEffect, useState } from "react"
 import type { saveNewsProps } from "../actions/save-news"
+import { saveNews } from "../actions/save-news"
 import { findImage, findTitle } from "@/module/utils/findTitleAndImage"
 import { IoClose, IoSaveOutline, IoImageOutline, IoLinkOutline, IoTextOutline, IoEyeOutline } from "react-icons/io5"
+import { useToast } from "@/module/common/hook/useToast"
 
 let render = false
 
@@ -20,8 +22,10 @@ const defaultModalForm: saveNewsProps = {
 
 export const SaveButton = () => {
   const { query, actions } = useEditor()
+  const { openToast } = useToast()
   const [modalForm, setModalForm] = useState<saveNewsProps>(defaultModalForm)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const data = localStorage.getItem("data")
@@ -36,6 +40,7 @@ export const SaveButton = () => {
   }, [])
 
   const save = async () => {
+    if (loading) return;
     const json = query.serialize()
     const title = findTitle(JSON.parse(json))
     const image = findImage(JSON.parse(json))
@@ -46,7 +51,7 @@ export const SaveButton = () => {
       author_id: "",
       cover_image_url: image,
       cover_text: title,
-      slug: title.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
+      slug: title?.toLowerCase()?.replace(/[^a-z0-9]+/g, "-"),
       allow_updates: false,
     }
     setModalForm(input)
@@ -55,15 +60,23 @@ export const SaveButton = () => {
   }
 
   const handleSave = async () => {
-    // Aquí iría la lógica de guardado
-    console.log("Guardando:", modalForm)
-    setIsModalOpen(false)
+    if (loading) return;
+    setLoading(true)
+    const data = await saveNews(modalForm);
+    setLoading(false)
+    if (data.status === 'success') {
+      openToast("La noticia se ha subido con exito\n Ve a la sección de publicaciones para gestionar su salida al aire", 'success')
+      setIsModalOpen(false)
+      localStorage.removeItem("data")
+      return
+    }
+    openToast(data.msg, "error",)
   }
 
   return (
     <>
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-10 flex items-center justify-center p-4">
           {/* Backdrop con blur */}
           <div className="absolute inset-0 bg-base-300/80 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
 
@@ -137,14 +150,14 @@ export const SaveButton = () => {
                   </label>
                   <div className="join w-full">
                     <span className="join-item flex items-center px-3 bg-base-300 text-base-content/50 text-sm border border-base-content/10 border-r-0">
-                      /blog/
+                      /new/
                     </span>
                     <input
                       type="text"
                       className="input input-bordered join-item w-full bg-base-200/50 border-base-content/10 focus:border-primary focus:bg-base-100 transition-all"
                       placeholder="mi-articulo"
                       value={modalForm?.slug || ""}
-                      onChange={(e) => setModalForm({ ...modalForm, slug: e.target.value })}
+                      onChange={(e) => setModalForm({ ...modalForm, slug: e.target.value?.replaceAll(/[^a-zA-Z0-9]+/g, '-') })}
                     />
                   </div>
                 </div>
@@ -206,11 +219,16 @@ export const SaveButton = () => {
 
             {/* Footer */}
             <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-base-content/10 bg-base-200/30">
-              <button onClick={() => setIsModalOpen(false)} className="btn btn-ghost">
+              <button disabled={loading} onClick={() => setIsModalOpen(false)} className="btn btn-ghost">
                 Cancelar
               </button>
-              <button onClick={handleSave} className="btn btn-primary gap-2">
-                <IoSaveOutline className="w-4 h-4" />
+              <button disabled={loading} onClick={handleSave} className="btn btn-primary gap-2">
+                {
+                  loading ?
+                    <IoSaveOutline className="w-4 h-4" />
+                    :
+                    <span className="loading loading-xs" />
+                }
                 Publicar artículo
               </button>
             </div>

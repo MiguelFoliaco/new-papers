@@ -5,5 +5,10 @@
     "conventionalCommits.scopes": [
         "LICENCE",
         "Editor"
-    ]
+    ],
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#1B3228",
+        "titleBar.activeBackground": "#254639",
+        "titleBar.activeForeground": "#F8FBFA"
+    }
 }
