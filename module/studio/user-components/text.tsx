@@ -1,15 +1,19 @@
-'use client'
+'use client';
 
-import { useNode } from "@craftjs/core";
+import { useTranslations } from "@/languages/context";
+import { useEditor, useNode } from "@craftjs/core";
 import {
-    ContentState,
     DraftEditorCommand,
     Editor,
     EditorState,
     RichUtils,
+    convertFromRaw,
+    convertToRaw,
+    RawDraftContentState,
 } from 'draft-js';
 import 'draft-js/dist/Draft.css';
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
 import {
     BiBold,
     BiItalic,
@@ -18,31 +22,62 @@ import {
     BiCode,
     BiListUl,
     BiListOl,
-    BiHeading,
     BiCodeBlock,
     BiSolidQuoteAltLeft,
 } from "react-icons/bi";
+import { LuHeading1, LuHeading2, LuHeading3 } from "react-icons/lu";
 
 type Props = {
-    text: string;
+    raw?: RawDraftContentState | null;
 };
 
-export const Text = ({ text }: Props) => {
-    const { connectors: { connect, drag } } = useNode();
+export const Text = ({ raw }: Props) => {
+    const { enable } = useEditor(state => ({
+        enable: state.options.enabled,
+    }));
 
+    const { t } = useTranslations('studio');
+    const {
+        connectors: { connect, drag },
+        actions: { setProp },
+    } = useNode();
+
+    /* Init editor */
     const [editorState, setEditorState] = useState(() =>
-        EditorState.createWithContent(
-            ContentState.createFromText(text)
-        )
+        raw
+            ? EditorState.createWithContent(convertFromRaw(raw))
+            : EditorState.createEmpty()
     );
+
+    /* Sync when props change (importante al cargar JSON) */
+    useEffect(() => {
+        if (raw) {
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setEditorState(
+                EditorState.createWithContent(convertFromRaw(raw))
+            );
+        }
+    }, [raw]);
+
+    /* Persist editor state to Craft props */
+    const onChange = (state: EditorState) => {
+        setEditorState(state);
+
+        const content = state.getCurrentContent();
+        const rawContent = convertToRaw(content);
+
+        setProp((props: Props) => {
+            props.raw = rawContent;
+        });
+    };
 
     const handleKeyCommand = (
         command: DraftEditorCommand,
-        editorState: EditorState
+        state: EditorState
     ) => {
-        const newState = RichUtils.handleKeyCommand(editorState, command);
+        const newState = RichUtils.handleKeyCommand(state, command);
         if (newState) {
-            setEditorState(newState);
+            onChange(newState);
             return 'handled';
         }
         return 'not-handled';
@@ -50,56 +85,62 @@ export const Text = ({ text }: Props) => {
 
     /* Inline styles */
     const toggleInline = (style: string) => {
-        setEditorState(RichUtils.toggleInlineStyle(editorState, style));
+        onChange(RichUtils.toggleInlineStyle(editorState, style));
     };
 
     /* Block styles */
     const toggleBlock = (block: string) => {
-        setEditorState(RichUtils.toggleBlockType(editorState, block));
+        onChange(RichUtils.toggleBlockType(editorState, block));
     };
 
     return (
         <div
-            className="transition-all border border-primary/20 hover:border-primary p-2 flex flex-col gap-2"
             ref={ref => {
-                if (ref) {
-                    connect(drag(ref as HTMLElement))
-                }
+                if (ref) connect(drag(ref as HTMLElement));
+            }}
+            className="text-paper-news transition-all border border-primary/20 hover:border-primary p-2 flex flex-col gap-2"
+            style={{
+                border: enable ? undefined : 'none',
             }}
         >
             <Editor
+                placeholder={t('placeholder')}
+                readOnly={!enable}
                 editorState={editorState}
-                onChange={setEditorState}
+                onChange={onChange}
                 handleKeyCommand={handleKeyCommand}
             />
 
-            {/* Toolbar */}
-            <div className="flex flex-wrap items-center gap-1 border-t border-base-content/10 pt-2">
+            {enable && (
+                <div className="flex flex-wrap items-center gap-1 border-t border-base-content/10 pt-2">
 
-                {/* Inline */}
-                <ToolbarButton onClick={() => toggleInline('BOLD')} icon={<BiBold />} />
-                <ToolbarButton onClick={() => toggleInline('ITALIC')} icon={<BiItalic />} />
-                <ToolbarButton onClick={() => toggleInline('UNDERLINE')} icon={<BiUnderline />} />
-                <ToolbarButton onClick={() => toggleInline('STRIKETHROUGH')} icon={<BiStrikethrough />} />
-                <ToolbarButton onClick={() => toggleInline('CODE')} icon={<BiCode />} />
+                    {/* Inline */}
+                    <ToolbarButton onClick={() => toggleInline('BOLD')} icon={<BiBold />} />
+                    <ToolbarButton onClick={() => toggleInline('ITALIC')} icon={<BiItalic />} />
+                    <ToolbarButton onClick={() => toggleInline('UNDERLINE')} icon={<BiUnderline />} />
+                    <ToolbarButton onClick={() => toggleInline('STRIKETHROUGH')} icon={<BiStrikethrough />} />
+                    <ToolbarButton onClick={() => toggleInline('CODE')} icon={<BiCode />} />
 
-                <Divider />
+                    <Divider />
 
-                {/* Blocks */}
-                <ToolbarButton onClick={() => toggleBlock('header-one')} icon={<BiHeading />} />
-                <ToolbarButton onClick={() => toggleBlock('blockquote')} icon={<BiSolidQuoteAltLeft />} />
-                <ToolbarButton onClick={() => toggleBlock('unordered-list-item')} icon={<BiListUl />} />
-                <ToolbarButton onClick={() => toggleBlock('ordered-list-item')} icon={<BiListOl />} />
-                <ToolbarButton onClick={() => toggleBlock('code-block')} icon={<BiCodeBlock />} />
-            </div>
+                    {/* Blocks */}
+                    <ToolbarButton onClick={() => toggleBlock('header-one')} icon={<LuHeading1 />} />
+                    <ToolbarButton onClick={() => toggleBlock('header-two')} icon={<LuHeading2 />} />
+                    <ToolbarButton onClick={() => toggleBlock('header-three')} icon={<LuHeading3 />} />
+                    <ToolbarButton onClick={() => toggleBlock('blockquote')} icon={<BiSolidQuoteAltLeft />} />
+                    <ToolbarButton onClick={() => toggleBlock('unordered-list-item')} icon={<BiListUl />} />
+                    <ToolbarButton onClick={() => toggleBlock('ordered-list-item')} icon={<BiListOl />} />
+                    <ToolbarButton onClick={() => toggleBlock('code-block')} icon={<BiCodeBlock />} />
+                </div>
+            )}
         </div>
     );
 };
 
-/* Toolbar button */
+/* Toolbar UI */
 const ToolbarButton = ({
     onClick,
-    icon
+    icon,
 }: {
     onClick: () => void;
     icon: React.ReactNode;
@@ -107,7 +148,7 @@ const ToolbarButton = ({
     <button
         type="button"
         onMouseDown={e => {
-            e.preventDefault(); // 👈 evita perder foco
+            e.preventDefault();
             onClick();
         }}
         className="btn-figma"
@@ -120,9 +161,10 @@ const Divider = () => (
     <span className="w-px h-5 bg-base-content/20 mx-1" />
 );
 
+/* Craft config */
 Text.craft = {
     displayName: 'Text',
     props: {
-        text: 'Editable text',
+        raw: null,
     },
 };

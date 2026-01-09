@@ -13,7 +13,7 @@ export const ButtonLang = () => {
     const { lan, changeLan, languages } = useLan(state => state)
 
     return (
-        <button className="btn btn-sm btn-outline btn-primary" onClick={changeLan} >
+        <button className="btn btn-sm  btn-primary" onClick={changeLan} >
             {languages.common['btn.language'][lan]}
             <Image src={flags[lan]} alt={lan} width={20} height={20} />
         </button>

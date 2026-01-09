@@ -10,18 +10,18 @@ export function PageNew() {
     const { t } = useTranslations('studio')
 
     return (
-            <div className="mx-auto">
-                <h1 className="text-lg font-semibold text-center">
-                    {t('title.create_or_update_content')}
-                </h1>
+        <div className="mx-auto">
+            <h1 className="text-lg pt-4 font-semibold text-center">
+                {t('title.create_or_update_content')}
+            </h1>
 
-                <div className='w-full h-full p-4 '>
-                    <Frame>
-                        <Element is="div" canvas>
-                            <Text text={t('placeholder')} fontSize={16} />
-                        </Element>
-                    </Frame>
-                </div>
+            <div className='w-full h-[850] p-4 overflow-y-scroll border-t border-b border-base-content/20'>
+                <Frame>
+                    <Element is="div" canvas>
+                        <Text />
+                    </Element>
+                </Frame>
             </div>
+        </div>
     );
 }

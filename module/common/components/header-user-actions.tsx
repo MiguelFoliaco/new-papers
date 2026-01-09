@@ -26,7 +26,7 @@ export const HeaderUserActions = () => {
 
 
     return (
-        <div className='flex w-full border-b border-b-white/20 p-2 px-3 items-center'>
+        <div className='flex w-full border-b border-b-neutral/20 p-2 px-3 items-center'>
             <span ref={refTime} className='text-sm text-white' />
 
             <div className='ml-auto'>
