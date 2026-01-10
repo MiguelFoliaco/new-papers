@@ -41,7 +41,7 @@
   name: "caramellatte";
   default: false;
   prefersdark: false;
-  color-scheme: "light";
+  color-scheme: "dark";
   /* Base - Crema cálido */
   --color-base-100: oklch(98% 0.015 85);
   --color-base-200: oklch(95% 0.025 85);

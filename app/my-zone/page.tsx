@@ -1,4 +1,5 @@
 import { HomeUser } from "@/module/home-user"
+import { getUserConfig } from "@/module/profile/actions/get-user-config"
 import { ProfilePage } from "@/module/profile/components"
 import { Studio } from "@/module/studio"
 import { Menu } from "@/module/studio/components/menu"
@@ -15,8 +16,11 @@ const queryByPage = {
 }
 
 const PageProfile = async (props: ServerProps) => {
-    const tab = (await props.searchParams)?.tab as keyof typeof queryByPage
-
+    let tab = (await props.searchParams)?.tab as keyof typeof queryByPage
+    const userConfig = await getUserConfig()
+    if (userConfig.data == null) {
+        tab = 'profile'
+    }
     const El = queryByPage[tab || 'home']
     return (
         <div>

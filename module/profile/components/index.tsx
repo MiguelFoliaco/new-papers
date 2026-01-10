@@ -1,6 +1,9 @@
+'use client'
 import { CONSTANT } from "@/constant"
 import { ButtonLang } from "@/module/common/components/btn-lan"
 import Image from "next/image"
+import { FormEditUser } from "./form-edit-user"
+import { useUser } from "@/module/auth/context/useUser"
 
 
 type Props = {
@@ -8,6 +11,9 @@ type Props = {
 }
 
 export const ProfilePage = ({ leftMenu }: Props) => {
+
+    const { user, userConfig } = useUser()
+
     return <div className="h-screen flex flex-col">
 
         {/* HEADER */}
@@ -31,8 +37,8 @@ export const ProfilePage = ({ leftMenu }: Props) => {
             </aside>
 
             {/* CONTENT */}
-            <main className="flex-1 overflow-y-auto border-r border-neutral/20">
-                <p>Aqui puedes editar informacion del usuario</p>
+            <main className="flex-1 min-w-0 overflow-y-auto border-r  border-neutral/20">
+                <FormEditUser user={user!} userConfig={userConfig!} />
             </main>
 
         </div>

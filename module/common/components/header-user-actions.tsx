@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useEffect, useRef } from 'react'
 import { SearchNews } from './search';
 import { dateByLanWithTime } from '@/module/utils/date-by-lan';
+import { Tables } from '@/supabase/database.types';
 
 
 
@@ -53,18 +54,18 @@ export const HeaderUserActions = () => {
 
 
 
-export const Avatar = ({ user }: { user: User }) => {
+export const Avatar = ({ user, config, size = 32 }: { user?: User, config?: Tables<'user_config'>, size?: number }) => {
 
-    const image = user?.user_metadata?.avatar_url;
+    const image = config?.avatar || user?.user_metadata?.avatar_url;
 
     if (image) {
-        return <Image width={32} height={32} className='w-8 h-8 rounded-full' src={image} alt="" />
+        return <Image width={size} height={size} className=' rounded-full' src={image} alt="" />
     }
 
-    const username = user?.user_metadata?.username || user?.email || 'Unknown User'
+    const username = config?.username || user?.user_metadata?.username || user?.email || 'Unknown User'
     return (
         <span className='avatar avatar-online '>
-            <div className="w-8 h-8 rounded-full border border-primary text-sm flex items-center justify-center">
+            <div style={{ width: size, height: size }} className=" rounded-full border border-primary text-sm flex items-center justify-center">
                 {username.slice(0, 1).toUpperCase()}
             </div>
         </span>

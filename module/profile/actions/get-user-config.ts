@@ -10,7 +10,7 @@ export const getUserConfig = async () => {
     }
     const userConfig = await client.from('user_config').select('*').eq('auth_id', user.data.user.id).maybeSingle()
 
-    if (!userConfig.data) {
+    if (userConfig.error) {
         return { msg: userConfig.error?.message, status: 'error' }
     }
 

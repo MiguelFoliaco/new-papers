@@ -6,7 +6,8 @@
         "LICENCE",
         "Editor",
         "home",
-        "1.0.0"
+        "1.0.0",
+        "profile"
     ],
     "workbench.colorCustomizations": {
         "activityBar.background": "#1B3228",
