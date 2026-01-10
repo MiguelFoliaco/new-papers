@@ -46,6 +46,27 @@ export type Database = {
           },
         ]
       }
+      history: {
+        Row: {
+          created_at: string
+          id: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       news: {
         Row: {
           allow_updates: boolean | null
@@ -255,6 +276,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      user_config: {
+        Row: {
+          accept_newletters_email: boolean
+          auth_id: string
+          avatar: string | null
+          created_at: string
+          id: string
+          rol: string
+          updated_at: string
+          username: string
+        }
+        Insert: {
+          accept_newletters_email?: boolean
+          auth_id: string
+          avatar?: string | null
+          created_at?: string
+          id?: string
+          rol: string
+          updated_at?: string
+          username: string
+        }
+        Update: {
+          accept_newletters_email?: boolean
+          auth_id?: string
+          avatar?: string | null
+          created_at?: string
+          id?: string
+          rol?: string
+          updated_at?: string
+          username?: string
+        }
+        Relationships: []
       }
     }
     Views: {

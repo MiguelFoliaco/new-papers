@@ -25,7 +25,7 @@ export const HomeUser = ({ leftMenu }: { leftMenu: React.ReactNode }) => {
             <div className="flex flex-1 overflow-hidden">
 
                 {/* SIDEBAR */}
-                <aside className="w-72 shrink-0 border-r border-neutral/20 sticky top-14 h-[calc(100vh-3.5rem)]">
+                <aside className="max-w-72 w-fit shrink-0 border-r border-neutral/20 sticky top-14 h-[calc(100vh-3.5rem)]">
                     {leftMenu}
                 </aside>
 

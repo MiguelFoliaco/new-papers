@@ -1,4 +1,5 @@
 import { HomeUser } from "@/module/home-user"
+import { ProfilePage } from "@/module/profile/components"
 import { Studio } from "@/module/studio"
 import { Menu } from "@/module/studio/components/menu"
 
@@ -9,7 +10,8 @@ type ServerProps = {
 
 const queryByPage = {
     'home': HomeUser, // home
-    'studio': Studio
+    'studio': Studio,
+    'profile': ProfilePage
 }
 
 const PageProfile = async (props: ServerProps) => {

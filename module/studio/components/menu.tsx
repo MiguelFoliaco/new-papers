@@ -29,7 +29,7 @@ export const Menu = ({ activeItem: _activeItem = "home", onLogout, userName = "U
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [activeItem, setActiveItem] = useState(_activeItem)
     const router = useRouter()
-    const { t, lan } = useTranslations('common')
+    const { t } = useTranslations('common')
     const menuItems: MenuItem[] = [
         { id: "home", label: t('left-menu.home'), icon: <HiHome className="w-5 h-5" /> },
         { id: "studio", label: t('left-menu.create-post'), icon: <BiNews className="w-5 h-5" /> },
@@ -102,16 +102,20 @@ export const Menu = ({ activeItem: _activeItem = "home", onLogout, userName = "U
             </nav>
 
             {/* User section */}
-            <div className="p-3 border-t border-base-300 space-y-2">
+            <div className="p-3 border-t border-base-300 space-y-2 cursor-pointer">
                 {/* User info */}
-                <div className={`flex items-center gap-3 p-2 rounded-lg bg-base-300/50 ${isCollapsed ? "justify-center" : ""}`}>
+                <div
+                    onClick={() => router.push('/my-zone?tab=profile')}
+                    className={`flex items-center gap-3 p-2 rounded-lg bg-base-300/50 
+                    ${activeItem === "profile" ? "bg-primary text-primary-content shadow-md" : ""}
+                    ${isCollapsed ? "justify-center" : ""}`}>
                     <div className="avatar">
-                        <div className="w-8 h-8 rounded-full ring ring-secondary ring-offset-base-100">
+                        <div className="w-8 h-8 text-secondary-content rounded-full ring ring-secondary ring-offset-base-100">
                             {userAvatar ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img src={userAvatar || "/placeholder.svg"} alt={userName} />
                             ) : (
-                                <div className="bg-secondary flex items-center justify-center text-secondary-content font-semibold text-sm">
+                                <div className="bg-secondary flex items-center justify-center  font-semibold text-sm">
                                     {userName.charAt(0).toUpperCase()}
                                 </div>
                             )}
@@ -119,8 +123,8 @@ export const Menu = ({ activeItem: _activeItem = "home", onLogout, userName = "U
                     </div>
                     {!isCollapsed && (
                         <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium text-base-content truncate">{userName}</p>
-                            <p className="text-xs text-base-content/50">{t('left-menu.editor')}</p>
+                            <p className="text-sm font-medium  truncate">{userName}</p>
+                            <p className="text-xs ">{t('left-menu.editor')}</p>
                         </div>
                     )}
                 </div>
