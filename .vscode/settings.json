@@ -7,7 +7,8 @@
         "Editor",
         "home",
         "1.0.0",
-        "profile"
+        "profile",
+        "database"
     ],
     "workbench.colorCustomizations": {
         "activityBar.background": "#1B3228",
