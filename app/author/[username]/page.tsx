@@ -48,21 +48,12 @@ export async function generateMetadata(
             url: profileUrl,
             siteName: 'New Papers',
             type: 'profile',
-            images: [
-                {
-                    url: user.avatar || '/og-default-author.png',
-                    width: 1200,
-                    height: 630,
-                    alt: user.username,
-                },
-            ],
         },
 
         twitter: {
             card: 'summary_large_image',
             title,
             description,
-            images: [user.avatar || '/og-default-author.png'],
         },
     }
 }
