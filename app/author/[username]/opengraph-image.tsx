@@ -1,10 +1,9 @@
 
 /* eslint-disable @next/next/no-img-element */
 import { getUserConfigByUsername } from "@/module/profile/actions/get-user-config"
-import { notFound } from "next/navigation"
 import { ImageResponse } from "next/og"
 
-export const runtime = "edge"
+export const runtime = "nodejs"
 export const size = {
     width: 1200,
     height: 630,
@@ -20,7 +19,7 @@ type Props = {
 export default async function OpenGraphImage({ params }: Props) {
     const username = (await params).username
     const user = await getUserConfigByUsername(username)
-    if (!user.data) return notFound()
+    if (!user.data) return new ImageResponse(<div>Not found</div>, { width: 1200, height: 630 })
 
     const avatar = user?.data?.avatar
     const cover = user?.data?.cover_image_url
