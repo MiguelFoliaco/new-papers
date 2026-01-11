@@ -9,12 +9,12 @@ export default function NotFound() {
             <div className="w-[50vw] text-center flex flex-col">
                 {/* Ilustración 404 */}
                 <div className="relative mb-8">
+                    <div className="mt-2 text-[12rem] sm:text-[16rem] font-black text-base-300 select-none leading-none">404</div>
                     <div className=" flex items-center justify-center">
                         <div className="bg-primary/10 p-4  rounded-full">
                             <IoNewspaperOutline fontSize={40} className=" text-primary" />
                         </div>
                     </div>
-                    <div className="mt-2 text-[12rem] sm:text-[16rem] font-black text-base-300 select-none leading-none">404</div>
                 </div>
 
                 {/* Mensaje */}

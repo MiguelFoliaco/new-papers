@@ -4,7 +4,6 @@ import { useState } from "react"
 import { BiCamera, BiCheck, BiEdit, BiLink, BiNews, BiSave, BiShield, BiShieldX, BiUser, BiX } from "react-icons/bi"
 import { MdEmail, MdNotifications } from "react-icons/md"
 import { FiExternalLink } from "react-icons/fi"
-import { User } from "@supabase/supabase-js"
 import { useToast } from "@/module/common/hook/useToast"
 import { Tables } from "@/supabase/database.types"
 import { useTranslations } from "@/languages/context"
@@ -16,18 +15,13 @@ import { DeactivateAccountModal } from "./modal-requests/disable"
 
 type UserConfig = Tables<'user_config'>
 
-type Props = {
-    user: User | null
-    userConfig: UserConfig | null
-}
 
 
-
-export const FormEditUser = ({ user }: Props) => {
+export const FormEditUser = () => {
 
     const { t } = useTranslations('profile')
     const router = useRouter()
-    const { updateUserConfig, userConfig } = useUser()
+    const { updateUserConfig, userConfig, user } = useUser()
     const searchParams = useSearchParams()
     const pathname = usePathname()
     const [isEditing, setIsEditing] = useState(false)
@@ -57,7 +51,6 @@ export const FormEditUser = ({ user }: Props) => {
     const [formData, setFormData] = useState<UserConfig>(initialData)
     const [disableModalShow, setDisableModalShow] = useState(false)
 
-    console.log(initialData, formData)
 
 
     const handleCopyLink = () => {
@@ -91,7 +84,7 @@ export const FormEditUser = ({ user }: Props) => {
             type === 'cover' ? image : formData.cover_image_url!,
             type === 'avatar' ? image : formData.avatar!,
         )
-        console.log(response)
+
         const params = new URLSearchParams(searchParams.toString())
         params.set('tab', 'profile')
 
@@ -131,7 +124,7 @@ export const FormEditUser = ({ user }: Props) => {
                 onClose={() => setDisableModalShow(false)}
                 username={formData.username}
             />
-            <div className="p-4 md:p-6 w-full min-h-full flex items-start justify-center">
+            <div className="py-4 md:p-6 w-full min-h-full flex items-center justify-center">
                 <div className="w-full max-w-2xl">
                     {/* Header con cover y avatar */}
                     <div className="bg-base-100 border border-base-content/10 rounded-2xl overflow-hidden shadow-sm">

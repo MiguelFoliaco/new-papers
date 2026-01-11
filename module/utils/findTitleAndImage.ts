@@ -24,9 +24,7 @@ export const findText = (data: Record<string, NodeData>) => {
         indexRandom = random(0, keyTitle.length - 1)
     }
     const titleNode = data[keyTitle[indexRandom]];
-    console.log(data, 'Estos son todos los bloques')
     const titleH1 = titleNode.props?.raw?.blocks?.find((e: { type: string }) => e?.type?.includes('unstyled'));
-    console.log(titleH1, 'Estos son los unstyled')
     return ((titleH1?.text || '') as string)
 }
 

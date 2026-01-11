@@ -15,7 +15,7 @@ export const saveUserConfig = async (input: TablesInsert<'user_config'>) => {
     const userConfigChange = await client.from('user_config').upsert({
         auth_id: user.data.user.id,
         rol: 'user',
-        username: input.username,
+        username: input?.username?.toLowerCase(),
         bio: input.bio,
         website: input.website,
         accept_newletters_email: input.accept_newletters_email,
