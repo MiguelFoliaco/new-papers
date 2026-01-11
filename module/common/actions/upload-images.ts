@@ -10,10 +10,10 @@ export const uploadOneImage = async (file: File, auth_id: string): Promise<Uploa
     return new Promise<UploadApiResponse>((resolve, reject) => {
         cloudinary.uploader.upload_stream(
             {
-                 folder: `${CONSTANT.CLODINARY_CONFIG.FOLDER}/${auth_id}`, 
-                 resource_type: 'image', 
-                 public_id: file.name,
-         },
+                folder: `${CONSTANT.CLODINARY_CONFIG.FOLDER}/${auth_id}`,
+                resource_type: 'image',
+                public_id: file.name,
+            },
             (error, result) => {
                 if (error) reject(error)
                 if (!result) reject(new Error('No result from cloudinary'))
@@ -25,5 +25,5 @@ export const uploadOneImage = async (file: File, auth_id: string): Promise<Uploa
 
 
 export const getImageWebp = async (id: string) => {
-    return cloudinary.url(id, { format: 'webp', })
+    return cloudinary.url(id, { format: 'jpg', })
 }
