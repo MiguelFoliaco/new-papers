@@ -8,7 +8,8 @@
         "home",
         "1.0.0",
         "profile",
-        "database"
+        "database",
+        "SEO"
     ],
     "workbench.colorCustomizations": {
         "activityBar.background": "#1B3228",

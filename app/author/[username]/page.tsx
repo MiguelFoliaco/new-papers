@@ -1,8 +1,7 @@
 import NotFound from '@/app/not-found'
 import { AuthorProfilePage } from '@/module/author'
 import { getInfoUser } from '@/module/author/actions/get-info-user'
-import { createClient } from '@/supabase/server'
-import React from 'react'
+import { Metadata } from 'next'
 
 
 type Props = {
@@ -24,5 +23,66 @@ const PageAuthor = async ({ params }: Props) => {
         </>
     )
 }
+
+export async function generateMetadata(
+    { params }: Props
+): Promise<Metadata> {
+    const { username } = await params
+    const dataUser = await getInfoUser(username)
+
+    if (!dataUser.data) {
+        return {
+            title: 'Autor no encontrado | New Papers',
+            description: 'El autor que buscas no existe o no está disponible.',
+            robots: {
+                index: false,
+                follow: false,
+            },
+        }
+    }
+
+    const { user, news } = dataUser.data
+
+    const title = `${user.username} | Autor en New Papers`
+    const description =
+        user.bio ||
+        `Perfil del autor ${user.username}. Artículos, publicaciones y actividad.`
+
+    const profileUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/author/${user.username}`
+
+    return {
+        title,
+        description: `${description} \n N° posts: ${news.length}`,
+
+        alternates: {
+            canonical: profileUrl,
+        },
+
+        openGraph: {
+            title,
+            description,
+            url: profileUrl,
+            siteName: 'New Papers',
+            type: 'profile',
+            images: [
+                {
+                    url: user.avatar || '/og-default-author.png',
+                    width: 1200,
+                    height: 630,
+                    alt: user.username,
+                },
+            ],
+        },
+
+        twitter: {
+            card: 'summary_large_image',
+            title,
+            description,
+            images: [user.avatar || '/og-default-author.png'],
+        },
+    }
+}
+
+
 
 export default PageAuthor
