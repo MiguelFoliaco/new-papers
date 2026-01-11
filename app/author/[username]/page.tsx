@@ -7,23 +7,6 @@ import { notFound } from 'next/navigation'
 type Props = {
     params: Promise<{ username: string }>
 }
-
-const PageAuthor = async ({ params }: Props) => {
-
-    const username = (await params).username
-    const dataUser = await getInfoUser(username)
-
-    if (!dataUser.data) return notFound()
-
-    return (
-        <>
-            <AuthorProfilePage
-                info={dataUser.data}
-            />
-        </>
-    )
-}
-
 export async function generateMetadata(
     { params }: Props
 ): Promise<Metadata> {
@@ -50,7 +33,7 @@ export async function generateMetadata(
         `Perfil del autor ${user.username}. Artículos, publicaciones y actividad.`
 
     const profileUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/author/${user.username}`
-    console.log('Hay metadata :)')
+
     return {
         title,
         description: `${description} \n N° posts: ${news?.length}`,
@@ -83,6 +66,24 @@ export async function generateMetadata(
         },
     }
 }
+
+
+const PageAuthor = async ({ params }: Props) => {
+
+    const username = (await params).username
+    const dataUser = await getInfoUser(username)
+
+    if (!dataUser.data) return notFound()
+
+    return (
+        <>
+            <AuthorProfilePage
+                info={dataUser.data}
+            />
+        </>
+    )
+}
+
 
 
 
