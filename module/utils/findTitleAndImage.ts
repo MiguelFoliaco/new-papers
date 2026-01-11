@@ -20,7 +20,7 @@ export const findText = (data: Record<string, NodeData>) => {
     const keyTitle = keys.filter(e => data[e].type.resolvedName === 'Text')
     let indexRandom = random(0, keyTitle.length - 1)
     
-    while (keyTitle[indexRandom].trim() !== '') {
+    while (keyTitle[indexRandom].trim() === '') {
         indexRandom = random(0, keyTitle.length - 1)
     }
     const titleNode = data[keyTitle[indexRandom]];

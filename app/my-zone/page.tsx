@@ -1,6 +1,7 @@
 import { HomeUser } from "@/module/home-user"
 import { getUserConfig } from "@/module/profile/actions/get-user-config"
 import { ProfilePage } from "@/module/profile/components"
+import { RequestEditor } from "@/module/request-editor"
 import { Studio } from "@/module/studio"
 import { Menu } from "@/module/studio/components/menu"
 
@@ -12,7 +13,8 @@ type ServerProps = {
 const queryByPage = {
     'home': HomeUser, // home
     'studio': Studio,
-    'profile': ProfilePage
+    'profile': ProfilePage,
+    'make-an-request-editor': RequestEditor
 }
 
 const PageProfile = async (props: ServerProps) => {

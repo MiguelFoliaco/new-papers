@@ -1,8 +1,9 @@
 'use client';
 
+import { ButtonFile } from "@/module/common/components/input-file";
 import { useEditor, useNode } from "@craftjs/core";
 import { format } from "@formkit/tempo";
-import { BiImage, BiTrash, BiUser } from "react-icons/bi";
+import { BiImage, BiTrash, BiUpload, BiUser } from "react-icons/bi";
 
 type ImageProps = {
     src?: string;
@@ -39,6 +40,12 @@ export const Image = ({
         selected: node.events.selected,
     }));
 
+    const onLoadmage = (url: string) => {
+        setProp((props: ImageProps) => {
+            props.src = url
+        })
+    }
+
     return (
         <div
             ref={(ref) => {
@@ -58,17 +65,13 @@ export const Image = ({
                 <div className="border-b border-neutral/20 bg-base-100 p-2 flex items-center gap-2">
                     <div className="flex items-center gap-2">
                         <BiImage className="text-base-content/60" />
-                        <input
-                            type="text"
-                            placeholder="Image URL"
-                            className="input input-xs flex-1"
-                            value={src}
-                            onChange={(e) =>
-                                setProp((props: ImageProps) => {
-                                    props.src = e.target.value;
-                                })
-                            }
-                        />
+                        <ButtonFile
+                            className="btn-xs btn-primary btn shadow"
+                            onLoad={onLoadmage}
+                        >
+                            <BiUpload />
+                            Upload
+                        </ButtonFile>
                     </div>
 
                     <select

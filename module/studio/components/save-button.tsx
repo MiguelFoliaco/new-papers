@@ -40,38 +40,52 @@ export const SaveButton = () => {
   }, [])
 
   const save = async () => {
-    if (loading) return;
-    const json = query.serialize()
-    const title = findTitle(JSON.parse(json))
-    const text = findText(JSON.parse(json))
-    const image = findImage(JSON.parse(json))
+    try {
+      if (loading) return;
+      const json = query.serialize()
+      const title = findTitle(JSON.parse(json))
+      const text = findText(JSON.parse(json))
+      const image = findImage(JSON.parse(json))
 
-    const input: saveNewsProps = {
-      content: JSON.stringify(json),
-      title,
-      author_id: "",
-      cover_image_url: image,
-      cover_text: text,
-      slug: title?.toLowerCase()?.replace(/[^a-z0-9]+/g, "-"),
-      allow_updates: false,
+      const input: saveNewsProps = {
+        content: JSON.stringify(json),
+        title,
+        author_id: "",
+        cover_image_url: image,
+        cover_text: text,
+        slug: title?.toLowerCase()?.replace(/[^a-z0-9]+/g, "-"),
+        allow_updates: false,
+      }
+      setModalForm(input)
+      setIsModalOpen(true)
+      localStorage.setItem("data", JSON.stringify(json))
     }
-    setModalForm(input)
-    setIsModalOpen(true)
-    localStorage.setItem("data", JSON.stringify(json))
+    catch (err) {
+      openToast("Error al subir la noticia", "error")
+      console.log(err)
+    }
   }
 
   const handleSave = async () => {
-    if (loading) return;
-    setLoading(true)
-    const data = await saveNews(modalForm);
-    setLoading(false)
-    if (data.status === 'success') {
-      openToast("La noticia se ha subido con exito\n Ve a la sección de publicaciones para gestionar su salida al aire", 'success')
-      setIsModalOpen(false)
-      localStorage.removeItem("data")
-      return
+    try {
+
+      if (loading) return;
+      setLoading(true)
+      const data = await saveNews(modalForm);
+      setLoading(false)
+      if (data.status === 'success') {
+        openToast("La noticia se ha subido con exito\n Ve a la sección de publicaciones para gestionar su salida al aire", 'success')
+        setIsModalOpen(false)
+        localStorage.removeItem("data")
+        return
+      }
+      openToast(data.msg, "error",)
     }
-    openToast(data.msg, "error",)
+    catch (err) {
+      openToast("Error al subir la noticia", "error")
+      console.log(err)
+
+    }
   }
 
   return (

@@ -32,7 +32,7 @@ export const ProfilePage = ({ leftMenu }: Props) => {
         </header>
 
         {/* BODY */}
-        <div className="flex flex-1 overflow-hidden">
+        <div className="flex flex-1 2xl:overflow-hidden md:overflow-scroll">
 
             {/* SIDEBAR */}
             <aside className="max-w-72 w-fit shrink-0 border-r border-neutral/20 sticky top-14 h-[calc(100vh-3.5rem)]">
@@ -40,18 +40,18 @@ export const ProfilePage = ({ leftMenu }: Props) => {
             </aside>
 
             {/* CONTENT */}
-            <main className=" flex-1 flex flex-col min-w-0 overflow-y-auto border-r  border-neutral/20 pb-10 lg:pb-0">
-                <div className="flex lg:flex-row flex-col justify-between lg:h-full h-fit gap-10 lg:gap-0  lg:w-full  w-[90%] mx-auto lg:mx-0 ">
+            <main className=" flex-1 flex flex-col min-w-0 overflow-y-auto border-r  border-neutral/20 pb-10 2xl:pb-0">
+                <div className="flex  2xl:flex-row flex-col justify-between 2xl:h-full h-fit gap-10 2xl:gap-0  2xl:w-full  w-[90%] mx-auto 2xl:mx-0 ">
                     <div className={
-                        `transition-all relative flex-1 flex flex-col items-center justify-center lg:pt-0 
+                        `transition-all  relative flex-1 flex flex-col items-center justify-center  2xl:pt-0 
                         ${!userConfig?.rol && 'pt-20'}
                         `
                     }>
                         {
                             !userConfig?.rol &&
                             <div className="absolute top-4 left-0 right-0 mx-auto flex items-center justify-center gap-2 mt-4">
-                                <BsQuestionSquareFill size={30} className="text-primary lg:block hidden" />
-                                <p className="text-center text-lg  lg:text-2xl">{t('first-title')} <i className="font-bold text-primary">{t('question.who-are-you')}</i></p>
+                                <BsQuestionSquareFill size={30} className="text-primary 2xl:block hidden" />
+                                <p className="text-center text-lg  2xl:text-2xl">{t('first-title')} <i className="font-bold text-primary">{t('question.who-are-you')}</i></p>
                             </div>
                         }
                         <FormEditUser />

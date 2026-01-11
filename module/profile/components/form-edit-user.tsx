@@ -124,7 +124,7 @@ export const FormEditUser = () => {
                 onClose={() => setDisableModalShow(false)}
                 username={formData.username}
             />
-            <div className="py-4 md:p-6 w-full min-h-full flex items-center justify-center">
+            <div className="py-4 w-full min-h-full flex items-center justify-center">
                 <div className="w-full max-w-2xl">
                     {/* Header con cover y avatar */}
                     <div className="bg-base-100 border border-base-content/10 rounded-2xl overflow-hidden shadow-sm">
