@@ -241,7 +241,7 @@ export const AuthorProfilePage = ({
                                 </li>
                                 <li>
                                     <a
-                                        href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}`}
+                                        href={typeof window !== 'undefined' ? `https://twitter.com/intent/tweet?url=${encodeURIComponent(location?.href)}` : '#'}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -250,7 +250,7 @@ export const AuthorProfilePage = ({
                                 </li>
                                 <li>
                                     <a
-                                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
+                                        href={typeof window !== 'undefined' ? `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(location.href)}` : ''}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
@@ -477,6 +477,6 @@ export const AuthorProfilePage = ({
                     </div>
                 )}
             </div>
-        </div>
+        </div >
     )
 }

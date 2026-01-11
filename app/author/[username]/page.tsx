@@ -27,10 +27,11 @@ const PageAuthor = async ({ params }: Props) => {
 export async function generateMetadata(
     { params }: Props
 ): Promise<Metadata> {
-    const { username } = await params
+    const username = (await params).username
     const dataUser = await getInfoUser(username)
 
     if (!dataUser.data) {
+        console.log('No hay metadata :(')
         return {
             title: 'Autor no encontrado | New Papers',
             description: 'El autor que buscas no existe o no está disponible.',
@@ -49,10 +50,10 @@ export async function generateMetadata(
         `Perfil del autor ${user.username}. Artículos, publicaciones y actividad.`
 
     const profileUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/author/${user.username}`
-
+    console.log('Hay metadata :)')
     return {
         title,
-        description: `${description} \n N° posts: ${news.length}`,
+        description: `${description} \n N° posts: ${news?.length}`,
 
         alternates: {
             canonical: profileUrl,
