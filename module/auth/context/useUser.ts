@@ -2,10 +2,12 @@ import { Tables } from "@/supabase/database.types";
 import { User } from "@supabase/supabase-js";
 import { create } from "zustand";
 
+export type UserConfig = Tables<'user_config'>;
 
 export type IUserContext = {
     user?: User;
-    userConfig?: Tables<'user_config'>;
+    userConfig?: UserConfig
+    updateUserConfig: (userConfig: UserConfig) => void
     updateUser: (user: User) => void
     exit: () => void
 }
@@ -15,5 +17,6 @@ export const useUser = create<IUserContext>(set => ({
     user: undefined,
     userConfig: undefined,
     updateUser: (user: User) => set(state => ({ ...state, user })),
-    exit: () => set({ user: undefined, }),
+    updateUserConfig: (userConfig: UserConfig) => set(state => ({ ...state, userConfig })),
+    exit: () => set({ user: undefined, userConfig: undefined }),
 }))

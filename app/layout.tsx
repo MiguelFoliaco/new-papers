@@ -6,7 +6,7 @@ import '@fontsource-variable/montserrat';
 import "./globals.css";
 import { Toast } from "@/module/common/components/toast";
 import { LayoutClient } from "./layoutClient";
-import { createClient } from "@/supabase/server";
+import { getUserConfig } from "@/module/profile/actions/get-user-config";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -30,9 +30,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  const client = await createClient()
 
-  const user = await client.auth.getUser()
+  // const user = await client.auth.getUser()
+  const userConfig = await getUserConfig()
 
   return (
     <html lang="en">
@@ -42,7 +42,8 @@ export default async function RootLayout({
         data-theme="caramellatte"
       >
         <LayoutClient
-          user={user.data.user}
+          user={userConfig.user!}
+          userConfig={userConfig.data!}
         >
           <Toast />
           {children}

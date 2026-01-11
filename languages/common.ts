@@ -14,6 +14,11 @@ export const common = {
         es: 'Crear Post',
         jp: 'ポストを作る'//ポストをつくる,
     },
+    'left-menu.request-editor': {
+        es: 'Conviertete en editor',
+        en: 'Become an editor',
+        jp: '編集者になる'
+    },
     'left-menu.my-post': {
         en: 'Create Post',
         es: 'Crear Post',

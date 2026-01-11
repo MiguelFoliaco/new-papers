@@ -282,31 +282,49 @@ export type Database = {
           accept_newletters_email: boolean
           auth_id: string
           avatar: string | null
+          bio: string | null
+          cover_image_url: string | null
           created_at: string
           id: string
+          request_delete: boolean | null
+          request_delete_text: string | null
           rol: string
+          status: boolean | null
           updated_at: string
           username: string
+          website: string | null
         }
         Insert: {
           accept_newletters_email?: boolean
           auth_id: string
           avatar?: string | null
+          bio?: string | null
+          cover_image_url?: string | null
           created_at?: string
           id?: string
+          request_delete?: boolean | null
+          request_delete_text?: string | null
           rol: string
+          status?: boolean | null
           updated_at?: string
           username: string
+          website?: string | null
         }
         Update: {
           accept_newletters_email?: boolean
           auth_id?: string
           avatar?: string | null
+          bio?: string | null
+          cover_image_url?: string | null
           created_at?: string
           id?: string
+          request_delete?: boolean | null
+          request_delete_text?: string | null
           rol?: string
+          status?: boolean | null
           updated_at?: string
           username?: string
+          website?: string | null
         }
         Relationships: []
       }

@@ -3,9 +3,10 @@ import { home } from './home';
 import { common } from "./common";
 import { useMemo } from "react";
 import { studio } from "./studio";
+import { profile } from "./profile";
 
 
-export const languages = { home, common, studio };
+export const languages = { home, common, studio, profile };
 
 
 export type LanguageState = {

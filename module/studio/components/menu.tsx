@@ -4,9 +4,11 @@ import type React from "react"
 
 import { useState } from "react"
 import { HiHome, HiNewspaper, HiDocumentText, HiFolder, HiLogout, HiChevronLeft, HiChevronRight } from "react-icons/hi"
-import { BiNews } from "react-icons/bi"
+import { BiGitPullRequest, BiNews } from "react-icons/bi"
 import { useTranslations } from "@/languages/context"
 import { useRouter } from "next/navigation"
+import { useUser } from "@/module/auth/context/useUser"
+import { logout } from "@/module/auth/actions/session"
 
 type MenuItem = {
     id: string
@@ -20,19 +22,21 @@ type MenuItem = {
 type Props = {
     activeItem?: string
     onNavigate?: (itemId: string) => void
-    onLogout?: () => void
     userName?: string
     userAvatar?: string
 }
 
-export const Menu = ({ activeItem: _activeItem = "home", onLogout, userName = "Usuario", userAvatar }: Props) => {
+export const Menu = ({ activeItem: _activeItem = "home", userName = "Usuario", userAvatar }: Props) => {
     const [isCollapsed, setIsCollapsed] = useState(false)
     const [activeItem, setActiveItem] = useState(_activeItem)
+    const { userConfig, exit } = useUser(state => state)
     const router = useRouter()
     const { t } = useTranslations('common')
     const menuItems: MenuItem[] = [
         { id: "home", label: t('left-menu.home'), icon: <HiHome className="w-5 h-5" /> },
-        { id: "studio", label: t('left-menu.create-post'), icon: <BiNews className="w-5 h-5" /> },
+        (userConfig?.rol && userConfig?.rol !== 'user') ?
+            { id: "studio", label: t('left-menu.create-post'), icon: <BiNews className="w-5 h-5" /> } :
+            { id: "make-an-request-editor", label: t('left-menu.request-editor'), icon: <BiGitPullRequest className="w-5 h-5" /> },
         { id: "my-news", label: t('left-menu.my-post'), icon: <BiNews className="w-5 h-5" /> },
         { id: "my-newspapers", label: t('left-menu.my-newpapers'), icon: <HiNewspaper className="w-5 h-5" /> },
         { id: "files", label: t('left-menu.files'), icon: <HiFolder className="w-5 h-5" /> },
@@ -41,6 +45,11 @@ export const Menu = ({ activeItem: _activeItem = "home", onLogout, userName = "U
     const handleItemClick = (item: MenuItem) => {
         router.push(`/my-zone?tab=${item.id}`)
         setActiveItem(item.id)
+    }
+
+    const onLogout = async () => {
+        await logout()
+        exit()
     }
 
     return (
@@ -73,7 +82,7 @@ export const Menu = ({ activeItem: _activeItem = "home", onLogout, userName = "U
 
             {/* Menu items */}
             <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-                {menuItems.map((item) => (
+                {userConfig?.rol && menuItems.map((item) => (
                     <button
                         key={item.id}
                         onClick={() => handleItemClick(item)}
@@ -107,15 +116,25 @@ export const Menu = ({ activeItem: _activeItem = "home", onLogout, userName = "U
                 <div
                     onClick={() => router.push('/my-zone?tab=profile')}
                     className={`flex items-center gap-3 p-2 rounded-lg bg-base-300/50 
-                    ${activeItem === "profile" ? "bg-primary text-primary-content shadow-md" : ""}
+                    ${activeItem === "profile" ? "bg-primary text-primary-content shadow-md " : ""}
                     ${isCollapsed ? "justify-center" : ""}`}>
                     <div className="avatar">
-                        <div className="w-8 h-8 text-secondary-content rounded-full ring ring-secondary ring-offset-base-100">
+                        <div className={
+                            `
+                            w-8 h-8 text-secondary-content rounded-full ring  ring-offset-base-100
+                            ${activeItem === "profile" ? "ring-primary-content" : "ring-secondary"}
+                            `
+                        }>
                             {userAvatar ? (
                                 // eslint-disable-next-line @next/next/no-img-element
                                 <img src={userAvatar || "/placeholder.svg"} alt={userName} />
                             ) : (
-                                <div className="bg-secondary flex items-center justify-center  font-semibold text-sm">
+                                <div className={
+                                    `
+                                    w-8 h-8  rounded-full flex items-center justify-center
+                                    ${activeItem === "profile" ? "bg-primary-content text-primary" : "bg-secondary text-secondary-content"}
+                                    `
+                                }>
                                     {userName.charAt(0).toUpperCase()}
                                 </div>
                             )}

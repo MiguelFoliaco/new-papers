@@ -16,6 +16,7 @@ export const getUserConfig = async () => {
 
     return {
         data: userConfig.data,
+        user: user.data.user,
         status: 'success',
         msg: 'success'
     }
